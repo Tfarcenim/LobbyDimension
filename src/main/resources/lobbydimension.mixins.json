@@ -4,8 +4,9 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "${modid}.refmap.json",
   "mixins": [
+    "ServerPlayerMixin"
   ],
-  "client":[
+  "client": [
     "MinecraftMixin"
   ],
   "injectors": {

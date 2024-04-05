@@ -8,6 +8,6 @@
       "seed": -1464245863,
       "biome": "minecraft:the_void"
     },
-    "settings": "minecraft:void"
+    "settings": "lobbydimension:void"
   }
 }
