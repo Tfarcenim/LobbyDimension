@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "item_frame",
+      "nbt": "{CustomModelData:15}"
+    },
+    "title": "A Step Closer To Nothing",
+    "description": "Obtain a Void Interface",
+    "background": "minecraft:textures/block/smooth_stone.png",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "inv": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "nbt": "{Item:\"void_interface\"}"
+          }
+        ]
+      }
+    }
+  }
+}

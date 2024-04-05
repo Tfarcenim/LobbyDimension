@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.example.examplemod.mixin",
+  "package": "tfar.lobbydimension.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "${modid}.refmap.json",
   "mixins": [

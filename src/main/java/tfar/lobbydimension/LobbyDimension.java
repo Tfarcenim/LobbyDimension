@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package tfar.lobbydimension;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.common.MinecraftForge;
@@ -13,16 +13,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(ExampleMod.MODID)
-public class ExampleMod
-{
+@Mod(LobbyDimension.MODID)
+public class LobbyDimension {
     // Directly reference a log4j logger.
 
-    public static final String MODID = "examplemod";
+    public static final String MODID = "lobbydimension";
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public ExampleMod() {
+    public LobbyDimension() {
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         // Register the doClientStuff method for modloading
@@ -32,12 +31,12 @@ public class ExampleMod
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void setup(final FMLCommonSetupEvent event)
-    {
+    private void setup(final FMLCommonSetupEvent event) {
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
     }
+
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
@@ -47,7 +46,7 @@ public class ExampleMod
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
     // Event bus for receiving Registry Events)
-    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
         @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {

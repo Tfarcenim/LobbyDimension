@@ -1,0 +1,10 @@
+[
+  {
+    "condition": "minecraft:location_check",
+    "predicate": {
+      "block": {
+        "nbt": "{Items:[{Slot:1b,id:\"minecraft:iron_block\"},{Slot:2b,id:\"minecraft:ender_pearl\"},{Slot:3b,id:\"minecraft:iron_block\"},{Slot:10b,id:\"minecraft:ender_pearl\"},{Slot:11b,id:\"minecraft:diamond\"},{Slot:12b,id:\"minecraft:ender_pearl\"},{Slot:19b,id:\"minecraft:iron_block\"},{Slot:20b,id:\"minecraft:ender_pearl\"},{Slot:21b,id:\"minecraft:iron_block\"}]}"
+      }
+    }
+  }
+]

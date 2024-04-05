@@ -1,4 +1,4 @@
-package com.example.examplemod.mixin;
+package tfar.lobbydimension.mixin;
 
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
