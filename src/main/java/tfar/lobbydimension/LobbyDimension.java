@@ -1,16 +1,29 @@
 package tfar.lobbydimension;
 
-import net.minecraft.block.Block;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.common.util.ITeleporter;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.function.Function;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(LobbyDimension.MODID)
@@ -22,36 +35,38 @@ public class LobbyDimension {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public LobbyDimension() {
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         // Register the setup method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        // Register the doClientStuff method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        bus.addListener(this::setup);
+        MinecraftForge.EVENT_BUS.addListener(this::commands);
+    }
 
-        // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
+    private void commands(RegisterCommandsEvent event) {
+        CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
+
+        dispatcher.register(Commands.literal("lobby").executes(
+                LobbyDimension::teleportTolobby)
+        );
+    }
+
+    public static final RegistryKey<World> LOBBY = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(MODID,"lobby"));
+
+
+    private static int teleportTolobby(CommandContext<CommandSource> context) throws CommandSyntaxException {
+        CommandSource commandSource = context.getSource();
+        ServerPlayerEntity serverPlayer = commandSource.getPlayerOrException();
+        MinecraftServer server = commandSource.getServer();
+        ServerWorld serverWorld = server.getLevel(LOBBY);
+        serverPlayer.changeDimension(serverWorld, new ITeleporter() {
+            @Override
+            public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
+                return ITeleporter.super.placeEntity(entity, currentWorld, destWorld, yaw, repositionEntity);
+            }
+        });
+        serverPlayer.setPos(0,64,0);
+        return 1;
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-    }
-
-    private void doClientStuff(final FMLClientSetupEvent event) {
-    }
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
-        // do something when the server starts
-        LOGGER.info("HELLO from server starting");
-    }
-
-    // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
-    // Event bus for receiving Registry Events)
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents {
-        @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
-            // register a new block here
-
-        }
     }
 }
