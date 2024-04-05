@@ -1,1 +1,0 @@
-execute if block ~ ~ ~ barrel{Items:[{id:"minecraft:ender_pearl"}]} run function the_void:core/test/void_interface
