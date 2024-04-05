@@ -51,7 +51,7 @@ public class LobbyDimension {
         );
     }
 
-    public static final RegistryKey<World> LOBBY = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("custom/the_void"));
+    public static final RegistryKey<World> LOBBY = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(MODID,"the_void"));
 
 
     private static int teleportTolobby(CommandContext<CommandSource> context) throws CommandSyntaxException {
@@ -59,8 +59,8 @@ public class LobbyDimension {
         ServerPlayerEntity serverPlayer = commandSource.getPlayerOrException();
         MinecraftServer server = commandSource.getServer();
         ServerWorld serverWorld = server.getLevel(LOBBY);
-        serverPlayer.changeDimension(serverWorld, new ITeleporter() {});
-        serverPlayer.setPos(0,64,0);
+        serverPlayer.teleportTo(serverWorld, 8.5,4,8.5,serverPlayer.yRot,serverPlayer.xRot);
+
         return 1;
     }
 
