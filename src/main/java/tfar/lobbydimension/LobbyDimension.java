@@ -3,6 +3,7 @@ package tfar.lobbydimension;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.block.PortalInfo;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
@@ -23,6 +24,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.annotation.Nullable;
 import java.util.function.Function;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -49,7 +51,7 @@ public class LobbyDimension {
         );
     }
 
-    public static final RegistryKey<World> LOBBY = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(MODID,"lobby"));
+    public static final RegistryKey<World> LOBBY = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("custom/the_void"));
 
 
     private static int teleportTolobby(CommandContext<CommandSource> context) throws CommandSyntaxException {
@@ -57,12 +59,7 @@ public class LobbyDimension {
         ServerPlayerEntity serverPlayer = commandSource.getPlayerOrException();
         MinecraftServer server = commandSource.getServer();
         ServerWorld serverWorld = server.getLevel(LOBBY);
-        serverPlayer.changeDimension(serverWorld, new ITeleporter() {
-            @Override
-            public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
-                return ITeleporter.super.placeEntity(entity, currentWorld, destWorld, yaw, repositionEntity);
-            }
-        });
+        serverPlayer.changeDimension(serverWorld, new ITeleporter() {});
         serverPlayer.setPos(0,64,0);
         return 1;
     }
